@@ -1,6 +1,6 @@
 
 set(SOURCE_FILES
-src/Pong.cpp
+    src/Application.cpp 
 )
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES}) 
 
