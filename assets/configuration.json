@@ -1,0 +1,12 @@
+  
+{
+    "window":{
+        "name":"Pong",
+        "width": 1280,
+        "height":800,
+        "resizable": false
+    },
+    "game":{
+        "frameRate":30
+    }
+}

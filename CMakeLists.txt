@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16.0)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 
-project(ProjectName VERSION 1.0.0 LANGUAGES CXX)
+project(Pong VERSION 1.0.0 LANGUAGES CXX)
 include(cmake/ProjectSettings.cmake)
 include(cmake/CompilerWarnings.cmake)
 include(cmake/PrecompiledHeaders.cmake)
@@ -19,7 +19,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PRECOMPILED_HEADERS})
 
 include(cmake/StaticAnalyzers.cmake)
-
 
 
 if(ENABLE_TESTING)
@@ -40,3 +39,8 @@ endif()
 
 include(cmake/Dependency.cmake)
 include(cmake/Installation.cmake)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory
+"${CMAKE_SOURCE_DIR}/assets" ${CMAKE_BINARY_DIR}/assets
+)

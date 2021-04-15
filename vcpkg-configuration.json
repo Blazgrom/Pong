@@ -1,0 +1,9 @@
+{
+    "registries": [
+      {
+        "kind": "git",
+        "repository": "https://www.github.com/blazgrom/vault",
+        "packages": [ "mojo" ]
+      }
+    ]
+}
