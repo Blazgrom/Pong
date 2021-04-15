@@ -28,7 +28,8 @@ class Score final
     void setTextureGenerator(std::shared_ptr<mojo::Font> generator)
     {
         m_textureGenerator = generator;
-        if (m_textureGenerator) {
+        if(m_textureGenerator)
+        {
             update_texture();
         }
         else

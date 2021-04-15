@@ -40,10 +40,8 @@ class Player final
     void draw() const;
 
     private:
-    
     [[nodiscard]] bool valid_position() const noexcept;
-    
+
     void fix_position();
-    
 };
 #endif
