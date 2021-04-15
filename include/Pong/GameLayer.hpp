@@ -4,10 +4,12 @@
 #include <tuple>
 
 #include "Pong/Player.hpp"
+#include "Pong/Score.hpp"
 
 #include <Mojo/Asserts.hpp>
 #include <Mojo/Graphics/Renderer.hpp>
 #include <Mojo/Layering/ContentLayer.hpp>
+#include <Mojo/Services.hpp>
 #include <Mojo/Window.hpp>
 
 
@@ -15,8 +17,12 @@ class GameLayer final : public mojo::ContentLayer
 {
     static constexpr mojo::IVector2D s_playerSize{8, 100};
     static constexpr float s_playerSpeed = 0.5f;
+    static constexpr std::uint8_t s_fontSize = 32;
+    std::shared_ptr<mojo::Font> m_font;
 
     mojo::Line m_middleLine;
+    Score m_leftPlayerScore{0};
+    Score m_rightPlayerScore{0};
     Player m_leftPlayer{s_playerSize, mojo::KeyCode::W, mojo::KeyCode::S, s_playerSpeed};
     Player m_rightPlayer{s_playerSize, mojo::KeyCode::I, mojo::KeyCode::K, s_playerSpeed};
 
@@ -32,6 +38,8 @@ class GameLayer final : public mojo::ContentLayer
         m_leftPlayer.draw();
         m_rightPlayer.draw();
         mojo::Renderer::draw(m_middleLine);
+        m_leftPlayerScore.draw();
+        m_rightPlayerScore.draw();
     }
 
     [[nodiscard]] bool handle_input(const mojo::InputEvent& event) override final
@@ -58,6 +66,15 @@ class GameLayer final : public mojo::ContentLayer
         m_middleLine.start = {middle, 0};
         m_middleLine.end = {middle, static_cast<int>(m_window->height())};
 
+
+        m_font = mojo::Services::Resources::get()->load<mojo::Font>("./assets/roboto.ttf", s_fontSize);
+        m_leftPlayerScore.setTextureGenerator(m_font);
+        m_rightPlayerScore.setTextureGenerator(m_font);
+
+        const int halfMiddle = middle / 2;
+        const int scoreYPos = 25;
+        m_leftPlayerScore.setPosition({halfMiddle, scoreYPos});
+        m_rightPlayerScore.setPosition({middle + halfMiddle, scoreYPos});
     }
 };
 #endif
