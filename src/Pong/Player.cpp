@@ -1,7 +1,5 @@
 #include "Pong/Player.hpp"
 
-#include <iostream>
-
 #include <Mojo/Graphics/Renderer.hpp>
 Player::Player(const mojo::IVector2D& size, const const mojo::KeyCode upButton, const const mojo::KeyCode downButton, const float speed)
 : m_position{0, 0}, m_size(size), m_upButton(upButton), m_downButton(downButton), m_speed(speed), m_appliedSpeed(0), m_windowHeight{0}
