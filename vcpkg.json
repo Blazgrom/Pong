@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "dependencies": [
         {
-            "name":"mojo"
+            "name":"mojo",
+            "version>=":"0.0.2"
         }
-    ]
+    ],
+    "builtin-baseline":"2779b733c221361aa33290f2dce1dd2cc5a0cbf1"
 }
