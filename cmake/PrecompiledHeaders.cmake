@@ -1,0 +1,16 @@
+set(PRECOMPILED_HEADERS
+	<functional>
+	<string>
+	<utility>
+	<memory>
+	<chrono>
+	<type_traits>
+	<vector>
+	<array>
+	<map>
+	<set>
+	<unordered_map>
+	<unordered_set>
+	<optional>
+	<variant>
+)
