@@ -19,7 +19,7 @@ class GameLayer final : public mojo::ContentLayer
     static constexpr mojo::IVector2D s_playerSize{8, 100};
     static constexpr mojo::IVector2D s_ballSize{12, 12};
     static constexpr float s_playerSpeed = 0.5f;
-    static constexpr float s_ballSpeed = 0.3f;
+    static constexpr float s_ballSpeed = 0.5f;
     static constexpr std::uint8_t s_fontSize = 32;
     std::shared_ptr<mojo::Font> m_font;
 
@@ -99,26 +99,32 @@ class GameLayer final : public mojo::ContentLayer
             bool collisionOnY = ((playerPosition.y + playerSize.y) >= ballPosition.y) && ((ballPosition.y + ballSize.y) >= playerPosition.y);
             return collisionOnX && collisionOnY;
         };
-        if(collidesWithPlayer(m_rightPlayer) || collidesWithPlayer(m_leftPlayer))
+
+        if(collidesWithPlayer(m_rightPlayer))
         {
-            ballVelocity.x *= -1;
-            m_ball.setVelocity(ballVelocity);
+            ballVelocity.x = -std::abs(ballVelocity.x);
         }
-        if(((ballPosition.y + ballSize.y) > windowHeight) || (ballPosition.y < 0))
+        else if(collidesWithPlayer(m_leftPlayer))
+        {
+            ballVelocity.x = std::abs(ballVelocity.x);
+        }
+        else if(((ballPosition.y + ballSize.y) > windowHeight) || (ballPosition.y < 0))
         {
             ballVelocity.y *= -1;
-            m_ball.setVelocity(ballVelocity);
         }
         else if(ballPosition.x > windowWidth)
         {
             m_leftPlayerScore.update_score(1);
             restart_game();
+            return;
         }
         else if((ballPosition.x + ballSize.x) < 0)
         {
             m_rightPlayerScore.update_score(1);
             restart_game();
+            return;
         }
+        m_ball.setVelocity(ballVelocity);
     }
 
     float generate_random_float(const float min, const float max)
