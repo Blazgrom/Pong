@@ -7,18 +7,18 @@
 class Ball final
 {
     mojo::FVector2D m_position;
-    mojo::FVector2D m_velocity;
+    mojo::FVector2D m_direction;
     mojo::IVector2D m_size;
     float m_speed;
 
     public:
-    Ball(const mojo::IVector2D& size, const float speed) : m_position{}, m_velocity{0.f, 0.f}, m_size{size}, m_speed(speed)
+    Ball(const mojo::IVector2D& size, const float speed) : m_position{}, m_direction{0.f, 0.f}, m_size{size}, m_speed(speed)
     {
     }
 
-    void setVelocity(const mojo::FVector2D velocity)
+    void setDirection(const mojo::FVector2D direction)
     {
-        m_velocity = velocity;
+        m_direction = direction;
     }
 
     void setPosition(const mojo::FVector2D position)
@@ -28,8 +28,8 @@ class Ball final
 
     void update(const float dt)
     {
-        m_position.x += m_velocity.x * dt * m_speed;
-        m_position.y += m_velocity.y * dt * m_speed;
+        m_position.x += m_direction.x * dt * m_speed;
+        m_position.y += m_direction.y * dt * m_speed;
     }
 
     void draw(const float dt)
@@ -48,9 +48,9 @@ class Ball final
         return m_size;
     }
 
-    [[nodiscard]] mojo::FVector2D velocity() const noexcept
+    [[nodiscard]] mojo::FVector2D direction() const noexcept
     {
-        return m_velocity;
+        return m_direction;
     }
 };
 #endif

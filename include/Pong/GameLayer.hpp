@@ -19,7 +19,7 @@ class GameLayer final : public mojo::ContentLayer
     static constexpr mojo::IVector2D s_playerSize{8, 100};
     static constexpr mojo::IVector2D s_ballSize{12, 12};
     static constexpr float s_playerSpeed = 0.5f;
-    static constexpr float s_ballSpeed = 0.5f;
+    static constexpr float s_ballSpeed = 0.8f;
     static constexpr std::uint8_t s_fontSize = 32;
     std::shared_ptr<mojo::Font> m_font;
 
@@ -90,9 +90,9 @@ class GameLayer final : public mojo::ContentLayer
         const std::uint32_t windowWidth = m_window->width();
         const mojo::FVector2D ballPosition = m_ball.position();
         const mojo::IVector2D ballSize = m_ball.size();
-        mojo::FVector2D ballVelocity = m_ball.velocity();
+        mojo::FVector2D ballDirection = m_ball.direction();
 
-        auto collidesWithPlayer = [&ballPosition, &ballSize, &ballVelocity](const Player& player) mutable -> bool {
+        auto collidesWithPlayer = [&ballPosition, &ballSize](const Player& player) mutable -> bool {
             const mojo::FVector2D playerPosition = player.position();
             const mojo::IVector2D playerSize = player.size();
             bool collisionOnX = ((playerPosition.x + playerSize.x) >= ballPosition.x) && ((ballPosition.x + ballSize.x) >= playerPosition.x);
@@ -102,15 +102,15 @@ class GameLayer final : public mojo::ContentLayer
 
         if(collidesWithPlayer(m_rightPlayer))
         {
-            ballVelocity.x = -std::abs(ballVelocity.x);
+            ballDirection.x = -std::abs(ballDirection.x);
         }
         else if(collidesWithPlayer(m_leftPlayer))
         {
-            ballVelocity.x = std::abs(ballVelocity.x);
+            ballDirection.x = std::abs(ballDirection.x);
         }
         else if(((ballPosition.y + ballSize.y) > windowHeight) || (ballPosition.y < 0))
         {
-            ballVelocity.y *= -1;
+            ballDirection.y *= -1;
         }
         else if(ballPosition.x > windowWidth)
         {
@@ -124,7 +124,7 @@ class GameLayer final : public mojo::ContentLayer
             restart_game();
             return;
         }
-        m_ball.setVelocity(ballVelocity);
+        m_ball.setDirection(ballDirection);
     }
 
     float generate_random_float(const float min, const float max)
@@ -142,7 +142,7 @@ class GameLayer final : public mojo::ContentLayer
 
     void restart_game()
     {
-        m_ball.setVelocity({generate_random_float(-1.f, 1.f), generate_random_float(-1.f, 1.f)});
+        m_ball.setDirection({generate_random_float(-1.f, 1.f), generate_random_float(-1.f, 1.f)});
         m_ball.setPosition({generate_random_float(0, m_window->width()), generate_random_float(0, m_window->height())});
     }
 };
