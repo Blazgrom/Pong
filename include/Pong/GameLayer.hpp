@@ -108,9 +108,13 @@ class GameLayer final : public mojo::ContentLayer
         {
             ballDirection.x = std::abs(ballDirection.x);
         }
-        else if(((ballPosition.y + ballSize.y) > windowHeight) || (ballPosition.y < 0))
+        else if((ballPosition.y + ballSize.y) > windowHeight)
         {
-            ballDirection.y *= -1;
+            ballDirection.y = -std::abs(ballDirection.y);
+        }
+        else if(ballPosition.y < 0)
+        {
+            ballDirection.y = std::abs(ballDirection.y);
         }
         else if(ballPosition.x > windowWidth)
         {
